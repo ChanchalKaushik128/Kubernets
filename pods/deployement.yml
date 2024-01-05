@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gaggi
+  namespace: gagan
+spec:
+  replicas: 5
+  minReadySeconds: 10
+  selector:
+    matchLabels:
+      env: prod
+  strategy:
+    rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+    # type: Recreate
+  template:
+    metadata:
+      labels:
+        env: prod
+    spec:
+      containers:
+      - name: prod-container
+        image: devopsinsiders/profile:v4
+        # resources:
+        #   limits:
+        #     memory: "128Mi"
+        #     cpu: "500m"
+        ports:
+        - containerPort: 80
